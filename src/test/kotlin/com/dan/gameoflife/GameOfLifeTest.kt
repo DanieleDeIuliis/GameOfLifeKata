@@ -14,4 +14,15 @@ class GameOfLifeTest {
 
         assertThat(board[0][1]).isFalse
     }
+
+    @Test
+    fun `check the neighbours on top to stay alive`() {
+
+        val board: List<MutableList<Boolean>> = listOf(mutableListOf(true, true, false), mutableListOf(false, true, false))
+        val gameOfLife = GameOfLife(board)
+
+        gameOfLife.nextGeneration()
+
+        assertThat(board[1][1]).isTrue
+    }
 }
