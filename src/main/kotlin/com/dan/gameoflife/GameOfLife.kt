@@ -2,10 +2,14 @@ package com.dan.gameoflife
 
 class GameOfLife(private val board: List<MutableList<Boolean>>) {
     fun nextGeneration() {
-        board[0][1] = false
-        if(countOnTopAliveNeighbours(1,1) >= 2) {
-            board[1][1] = true
-        }
+        board[1][1] = countOnTopAliveNeighbours(1,1) + countOnLineAliveNeighbours(1,1) >= 2
+    }
+
+    private fun countOnLineAliveNeighbours(row: Int, column: Int): Int {
+        var count = 0
+        if (board[row][column - 1]) count++
+        if (board[row][column + 1]) count++
+        return count
     }
 
     private fun countOnTopAliveNeighbours(row: Int, column: Int): Int {

@@ -7,7 +7,10 @@ class GameOfLifeTest {
     @Test
     fun `Any live cell with fewer than two live neighbours dies`() {
 
-        val board: List<MutableList<Boolean>> = listOf(mutableListOf(false, true, false))
+        val board: List<MutableList<Boolean>> = listOf(
+            mutableListOf(false, false, false),
+            mutableListOf(false, true, false),
+            mutableListOf(false, false, false))
         val gameOfLife = GameOfLife(board)
 
         gameOfLife.nextGeneration()
@@ -18,7 +21,10 @@ class GameOfLifeTest {
     @Test
     fun `check the neighbours on top to stay alive`() {
 
-        val board: List<MutableList<Boolean>> = listOf(mutableListOf(true, true, false), mutableListOf(false, true, false))
+        val board: List<MutableList<Boolean>> = listOf(
+            mutableListOf(true, true, false),
+            mutableListOf(false, true, false),
+            mutableListOf(false, false, false))
         val gameOfLife = GameOfLife(board)
 
         gameOfLife.nextGeneration()
