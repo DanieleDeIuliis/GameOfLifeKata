@@ -60,4 +60,17 @@ class GameOfLifeTest {
         assertThat(board[1][0]).isFalse
     }
 
+    @Test
+    fun `handle right outside of the universe in check`() {
+
+        val board: List<MutableList<Boolean>> = listOf(
+            mutableListOf(false, false, false),
+            mutableListOf(true, true, true),
+            mutableListOf(false, false, false))
+        val gameOfLife = GameOfLife(board)
+
+        gameOfLife.nextGeneration()
+
+        assertThat(board[1][2]).isFalse
+    }
 }
