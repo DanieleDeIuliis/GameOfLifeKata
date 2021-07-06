@@ -73,4 +73,33 @@ class GameOfLifeTest {
 
         assertThat(board[1][2]).isFalse
     }
+
+    @Test
+    fun `handle top cells outside of the universe in check`() {
+
+        val board: List<MutableList<Boolean>> = listOf(
+            mutableListOf(false, true, false),
+            mutableListOf(false, true, false),
+            mutableListOf(false, false, false))
+        val gameOfLife = GameOfLife(board)
+
+        gameOfLife.nextGeneration()
+
+        assertThat(board[0][1]).isFalse
+    }
+
+    @Test
+    fun `handle bottom cells outside of the universe in check`() {
+
+        val board: List<MutableList<Boolean>> = listOf(
+            mutableListOf(false, true, false),
+            mutableListOf(false, false, false),
+            mutableListOf(false, false, false),
+            mutableListOf(false, false, true))
+        val gameOfLife = GameOfLife(board)
+
+        gameOfLife.nextGeneration()
+
+        assertThat(board[3][2]).isFalse
+    }
 }
