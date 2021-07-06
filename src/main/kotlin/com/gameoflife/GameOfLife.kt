@@ -2,6 +2,10 @@ package com.gameoflife
 
 class GameOfLife(private val universe: List<MutableList<Boolean>>) {
     fun nextGeneration() {
+        computeNextGeneration().applyTo(universe)
+    }
+
+    private fun computeNextGeneration(): MutableList<MutableList<Boolean>> {
         val newGeneration = mutableListOf<MutableList<Boolean>>()
 
         universe.forEachIndexed { rowIndex, row ->
@@ -11,7 +15,7 @@ class GameOfLife(private val universe: List<MutableList<Boolean>>) {
                 newRow.add(nextGenerationValue(rowIndex, columnIndex))
             }
         }
-        newGeneration.applyTo(universe)
+        return newGeneration
     }
 
     private fun nextGenerationValue(row: Int, column: Int): Boolean {
