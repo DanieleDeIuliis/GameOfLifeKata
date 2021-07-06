@@ -58,4 +58,13 @@ class GameOfLifeTest {
 
         assertThat(universe[0][0]).isTrue
     }
+
+    @Test
+    fun `a cell with more than three alive neighbours dies`() {
+        val universe = listOf(mutableListOf(true, true, true), mutableListOf(true, true, false))
+
+        GameOfLife(universe).nextGeneration()
+
+        assertThat(universe[1][1]).isFalse
+    }
 }
