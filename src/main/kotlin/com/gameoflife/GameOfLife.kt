@@ -24,6 +24,8 @@ class GameOfLife(private val universe: List<MutableList<Boolean>>) {
         val leftNeighbour = universe[row].getOrElse(column - 1) { false }
         var count = 0
         if(row - 1 >= 0  && universe[row - 1][column]) count++
+        if(row - 1 >= 0  && universe[row - 1].getOrElse(column - 1) { false }) count++
+        if(row - 1 >= 0  && universe[row - 1].getOrElse(column + 1) { false }) count++
         if(row + 1 < universe.size && universe[row + 1][column]) count++
         if(rightNeighbour) count++
         if(leftNeighbour) count++
