@@ -20,8 +20,11 @@ class GameOfLife(private val universe: List<MutableList<Boolean>>) {
     }
 
     private fun nextGenerationValue(row: Int, column: Int): Boolean {
-        var count = aliveTopNeighbours(row, column) + aliveNeighboursInTheSameLine(row, column) + aliveBottomNeighbours(row, column)
-        return count >= 2 && count <= 3
+        val count = aliveTopNeighbours(row, column) + aliveNeighboursInTheSameLine(row, column) + aliveBottomNeighbours(row, column)
+        if(count < 3 && !universe[row][column]) {
+            return false
+        }
+        return count in 2..3
     }
 
     private fun aliveBottomNeighbours(row: Int, column: Int): Int {
