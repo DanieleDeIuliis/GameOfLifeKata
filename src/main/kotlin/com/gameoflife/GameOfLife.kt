@@ -6,17 +6,12 @@ class GameOfLife(private val universe: List<MutableList<Boolean>>) {
         computeNextGeneration().applyTo(universe)
     }
 
-    private fun computeNextGeneration(): MutableList<MutableList<Boolean>> {
-        val newGeneration = mutableListOf<MutableList<Boolean>>()
-
-        universe.forEachIndexed { rowIndex, row ->
-            val newRow = mutableListOf<Boolean>()
-            newGeneration.add(newRow)
-            row.forEachIndexed { columnIndex, _ ->
-                newRow.add(nextGenerationValue(rowIndex, columnIndex))
+    private fun computeNextGeneration(): List<List<Boolean>> {
+        return universe.mapIndexed { rowIndex, row ->
+            row.mapIndexed { columnIndexed, _ ->
+                nextGenerationValue(rowIndex, columnIndexed)
             }
         }
-        return newGeneration
     }
 
     private fun nextGenerationValue(row: Int, column: Int): Boolean {
@@ -61,7 +56,7 @@ class GameOfLife(private val universe: List<MutableList<Boolean>>) {
     private fun Int.isOutOfBottomBounds() = this + 1 >= universe.size
     private fun Int.isOutOfTopBounds() = this - 1 < 0
 
-    private fun MutableList<MutableList<Boolean>>.applyTo(universe: List<MutableList<Boolean>>) {
+    private fun List<List<Boolean>>.applyTo(universe: List<MutableList<Boolean>>) {
         this.forEachIndexed { rowIndex, row ->
             row.forEachIndexed { columnIndex, value ->
                 universe[rowIndex][columnIndex] = value
