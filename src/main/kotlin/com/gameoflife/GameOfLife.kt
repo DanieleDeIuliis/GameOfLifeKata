@@ -1,6 +1,7 @@
 package com.gameoflife
 
 class GameOfLife(private val universe: List<MutableList<Boolean>>) {
+
     fun nextGeneration() {
         computeNextGeneration().applyTo(universe)
     }
@@ -19,7 +20,14 @@ class GameOfLife(private val universe: List<MutableList<Boolean>>) {
     }
 
     private fun nextGenerationValue(row: Int, column: Int): Boolean {
-        return universe[row].getOrElse(column - 1) { false } && universe[row].getOrElse(column + 1) { false }
+        val rightNeighbour = universe[row].getOrElse(column + 1) { false }
+        val leftNeighbour = universe[row].getOrElse(column - 1) { false }
+        var count = 0
+        if(row - 1 >= 0  && universe[row - 1][column]) count++
+        if(row + 1 < universe.size && universe[row + 1][column]) count++
+        if(rightNeighbour) count++
+        if(leftNeighbour) count++
+        return count >= 2
     }
 
     private fun MutableList<MutableList<Boolean>>.applyTo(universe: List<MutableList<Boolean>>) {
