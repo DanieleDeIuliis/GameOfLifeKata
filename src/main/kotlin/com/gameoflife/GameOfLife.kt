@@ -20,16 +20,24 @@ class GameOfLife(private val universe: List<MutableList<Boolean>>) {
     }
 
     private fun nextGenerationValue(row: Int, column: Int): Boolean {
-        val rightNeighbour = universe[row].getOrElse(column + 1) { false }
-        val leftNeighbour = universe[row].getOrElse(column - 1) { false }
-        var count = 0
-        if(row - 1 >= 0  && universe[row - 1][column]) count++
-        if(row - 1 >= 0  && universe[row - 1].getOrElse(column - 1) { false }) count++
-        if(row - 1 >= 0  && universe[row - 1].getOrElse(column + 1) { false }) count++
-        if(row + 1 < universe.size && universe[row + 1][column]) count++
-        if(rightNeighbour) count++
-        if(leftNeighbour) count++
+        var count = aliveTopNeighbours(row, column) + aliveNeighboursInTheSameLine(row, column)
+        if (row + 1 < universe.size && universe[row + 1][column]) count++
         return count >= 2
+    }
+
+    private fun aliveNeighboursInTheSameLine(row: Int, column: Int): Int {
+        var count = 0
+        if (universe[row].getOrElse(column + 1) { false }) count++
+        if (universe[row].getOrElse(column - 1) { false }) count++
+        return count
+    }
+
+    private fun aliveTopNeighbours(row: Int, column: Int): Int {
+        var count = 0
+        if (row - 1 >= 0 && universe[row - 1][column]) count++
+        if (row - 1 >= 0 && universe[row - 1].getOrElse(column - 1) { false }) count++
+        if (row - 1 >= 0 && universe[row - 1].getOrElse(column + 1) { false }) count++
+        return count
     }
 
     private fun MutableList<MutableList<Boolean>>.applyTo(universe: List<MutableList<Boolean>>) {
