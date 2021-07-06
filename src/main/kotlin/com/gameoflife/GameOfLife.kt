@@ -25,10 +25,14 @@ class GameOfLife(private val universe: List<MutableList<Boolean>>) {
     }
 
     private fun aliveBottomNeighbours(row: Int, column: Int): Int {
+        if(row.isOutOfBottomBounds()) {
+            return 0
+        }
+
         var count = 0
-        if (row + 1 < universe.size && universe[row + 1][column]) count++
-        if (row + 1 < universe.size && universe[row + 1].getOrElse(column + 1) { false }) count++
-        if (row + 1 < universe.size && universe[row + 1].getOrElse(column - 1) { false }) count++
+        if (universe[row + 1].getOrElse(column - 1) { false }) count++
+        if (universe[row + 1][column]) count++
+        if (universe[row + 1].getOrElse(column + 1) { false }) count++
         return count
     }
 
@@ -40,12 +44,19 @@ class GameOfLife(private val universe: List<MutableList<Boolean>>) {
     }
 
     private fun aliveTopNeighbours(row: Int, column: Int): Int {
+        if(row.isOutOfTopBounds()) {
+            return 0
+        }
+
         var count = 0
-        if (row - 1 >= 0 && universe[row - 1][column]) count++
-        if (row - 1 >= 0 && universe[row - 1].getOrElse(column - 1) { false }) count++
-        if (row - 1 >= 0 && universe[row - 1].getOrElse(column + 1) { false }) count++
+        if (universe[row - 1].getOrElse(column - 1) { false }) count++
+        if (universe[row - 1][column]) count++
+        if (universe[row - 1].getOrElse(column + 1) { false }) count++
         return count
     }
+
+    private fun Int.isOutOfBottomBounds() = this + 1 >= universe.size
+    private fun Int.isOutOfTopBounds() = this - 1 < 0
 
     private fun MutableList<MutableList<Boolean>>.applyTo(universe: List<MutableList<Boolean>>) {
         this.forEachIndexed { rowIndex, row ->
