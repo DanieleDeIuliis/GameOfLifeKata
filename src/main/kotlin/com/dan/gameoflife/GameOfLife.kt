@@ -2,26 +2,19 @@ package com.dan.gameoflife
 
 class GameOfLife(private val board: List<MutableList<Boolean>>) {
     fun nextGeneration() {
-        board[1][1] = countOnTopAliveNeighbours(1,1) +
-                countOnLineAliveNeighbours(1,1) +
-                countBottomAliveNeighbours(1,1) >= 2
-
-        board[1][0] = countOnTopAliveNeighbours(1,0) +
-                countOnLineAliveNeighbours(1,0) +
-                countBottomAliveNeighbours(1,0) >= 2
-
-        board[1][2] = countOnTopAliveNeighbours(1,2) +
-                countOnLineAliveNeighbours(1,2) +
-                countBottomAliveNeighbours(1,2) >= 2
-
-        board[0][1] = countOnTopAliveNeighbours(0,1) +
-                countOnLineAliveNeighbours(0,1) +
-                countBottomAliveNeighbours(0,1) >= 2
-
-        if(board.size > 3) {
-            board[3][2] = countOnTopAliveNeighbours(2,2) +
-                    countOnLineAliveNeighbours(2,2) +
-                    countBottomAliveNeighbours(2,2) >= 2
+        val temp = mutableListOf<MutableList<Boolean>>()
+        board.forEachIndexed { rowIndex, row ->
+            temp.add(mutableListOf())
+            row.forEachIndexed { columnIndex, _ ->
+                temp[rowIndex].add(countOnTopAliveNeighbours(rowIndex,columnIndex) +
+                        countOnLineAliveNeighbours(rowIndex,columnIndex) +
+                        countBottomAliveNeighbours(rowIndex,columnIndex) >= 2)
+            }
+        }
+        temp.forEachIndexed { rowIndex, row ->
+            row.forEachIndexed { columnIndex, cell ->
+                board[rowIndex][columnIndex] = cell
+            }
         }
     }
 

@@ -102,4 +102,20 @@ class GameOfLifeTest {
 
         assertThat(board[3][2]).isFalse
     }
+
+    @Test
+    fun `cells don't interact with each other during next generation computation`() {
+        val board: List<MutableList<Boolean>> = listOf(
+            mutableListOf(false, true, false),
+            mutableListOf(false, false, false),
+            mutableListOf(true, true, true))
+        val gameOfLife = GameOfLife(board)
+
+        gameOfLife.nextGeneration()
+
+        assertThat(board).isEqualTo(listOf(
+            listOf(false, false, false),
+            listOf(true, true, true),
+            listOf(false, true, false)))
+    }
 }
