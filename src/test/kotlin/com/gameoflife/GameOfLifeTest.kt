@@ -22,4 +22,13 @@ class GameOfLifeTest {
 
         assertThat(universe).isEqualTo(listOf(mutableListOf(false, true, false)))
     }
+
+    @Test
+    fun `handle generic size universe`() {
+        val universe = listOf(mutableListOf(true, true, true, true))
+
+        GameOfLife(universe).nextGeneration()
+
+        assertThat(universe).isEqualTo(listOf(mutableListOf(false, true, true, false)))
+    }
 }

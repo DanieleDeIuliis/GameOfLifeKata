@@ -2,13 +2,15 @@ package com.gameoflife
 
 class GameOfLife(private val universe: List<MutableList<Boolean>>) {
     fun nextGeneration() {
-        val newGeneration = mutableListOf(mutableListOf<Boolean>())
-        newGeneration[0].add(nextGenerationValue(0,0))
-        if(universe[0].size >= 2) {
-            newGeneration[0].add(nextGenerationValue(0,1))
-            newGeneration[0].add(nextGenerationValue(0,2))
-        }
+        val newGeneration = mutableListOf<MutableList<Boolean>>()
 
+        universe.forEachIndexed { rowIndex, row ->
+            val newRow = mutableListOf<Boolean>()
+            newGeneration.add(newRow)
+            row.forEachIndexed { columnIndex, _ ->
+                newRow.add(nextGenerationValue(rowIndex, columnIndex))
+            }
+        }
         newGeneration.applyTo(universe)
     }
 
