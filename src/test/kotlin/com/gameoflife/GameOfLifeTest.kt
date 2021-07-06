@@ -49,4 +49,13 @@ class GameOfLifeTest {
 
         assertThat(universe[1][1]).isTrue
     }
+
+    @Test
+    fun `handle all three bottom neighbours`() {
+        val universe = listOf(mutableListOf(true, true, true), mutableListOf(false, true, false))
+
+        GameOfLife(universe).nextGeneration()
+
+        assertThat(universe[0][0]).isTrue
+    }
 }
