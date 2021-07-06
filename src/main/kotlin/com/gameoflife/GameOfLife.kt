@@ -9,52 +9,52 @@ class GameOfLife(private val universe: List<MutableList<Boolean>>) {
     private fun computeNextGeneration(): List<List<Boolean>> {
         return universe.mapIndexed { rowIndex, row ->
             row.mapIndexed { columnIndexed, _ ->
-                nextGenerationValue(rowIndex, columnIndexed)
+                nextGenerationValue(Position(rowIndex, columnIndexed))
             }
         }
     }
 
-    private fun nextGenerationValue(row: Int, column: Int): Boolean {
-        val count = aliveTopNeighbours(row, column) + aliveNeighboursInTheSameLine(row, column) + aliveBottomNeighbours(row, column)
-        if(count < 3 && !universe[row][column]) {
+    private fun nextGenerationValue(position: Position): Boolean {
+        val count = aliveTopNeighbours(position) + aliveNeighboursInTheSameLine(position) + aliveBottomNeighbours(position)
+        if(count < 3 && !universe[position.row][position.column]) {
             return false
         }
         return count in 2..3
     }
 
-    private fun aliveBottomNeighbours(row: Int, column: Int): Int {
-        if(row.isOutOfBottomBounds()) {
+    private fun aliveBottomNeighbours(position: Position): Int {
+        if(position.isOutOfBottomBounds()) {
             return 0
         }
 
         var count = 0
-        if (universe[row + 1].getOrElse(column - 1) { false }) count++
-        if (universe[row + 1][column]) count++
-        if (universe[row + 1].getOrElse(column + 1) { false }) count++
+        if (universe[position.row + 1].getOrElse(position.column - 1) { false }) count++
+        if (universe[position.row + 1][position.column]) count++
+        if (universe[position.row + 1].getOrElse(position.column + 1) { false }) count++
         return count
     }
 
-    private fun aliveNeighboursInTheSameLine(row: Int, column: Int): Int {
+    private fun aliveNeighboursInTheSameLine(position: Position): Int {
         var count = 0
-        if (universe[row].getOrElse(column + 1) { false }) count++
-        if (universe[row].getOrElse(column - 1) { false }) count++
+        if (universe[position.row].getOrElse(position.column + 1) { false }) count++
+        if (universe[position.row].getOrElse(position.column - 1) { false }) count++
         return count
     }
 
-    private fun aliveTopNeighbours(row: Int, column: Int): Int {
-        if(row.isOutOfTopBounds()) {
+    private fun aliveTopNeighbours(position: Position): Int {
+        if(position.isOutOfTopBounds()) {
             return 0
         }
 
         var count = 0
-        if (universe[row - 1].getOrElse(column - 1) { false }) count++
-        if (universe[row - 1][column]) count++
-        if (universe[row - 1].getOrElse(column + 1) { false }) count++
+        if (universe[position.row - 1].getOrElse(position.column - 1) { false }) count++
+        if (universe[position.row - 1][position.column]) count++
+        if (universe[position.row - 1].getOrElse(position.column + 1) { false }) count++
         return count
     }
 
-    private fun Int.isOutOfBottomBounds() = this + 1 >= universe.size
-    private fun Int.isOutOfTopBounds() = this - 1 < 0
+    private fun Position.isOutOfBottomBounds() = this.row + 1 >= universe.size
+    private fun Position.isOutOfTopBounds() = this.row - 1 < 0
 
     private fun List<List<Boolean>>.applyTo(universe: List<MutableList<Boolean>>) {
         this.forEachIndexed { rowIndex, row ->
