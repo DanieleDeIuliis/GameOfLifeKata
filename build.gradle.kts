@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     kotlin("jvm") version "2.1.0"
 }
@@ -11,17 +9,23 @@ repositories {
     mavenCentral()
 }
 
+
 dependencies {
     testImplementation(kotlin("test"))
-    testImplementation("net.wuerl.kotlin:assertj-core-kotlin:0.2.1")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.6.0")
-    testImplementation("io.mockk:mockk:1.10.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.8.1")
+    // https://mvnrepository.com/artifact/io.mockk/mockk
+    testImplementation("io.mockk:mockk:1.13.13")
+    // https://mvnrepository.com/artifact/org.assertj/assertj-core
+    testImplementation("org.assertj:assertj-core:3.26.3")
+
 }
 
 tasks.test {
     useJUnitPlatform()
 }
+
 kotlin {
     jvmToolchain(21)
 }
