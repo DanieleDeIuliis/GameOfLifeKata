@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test
 
 
 class ApplicationTest {
-	val inputParser = mockk<InputParser>()
-	val application = Application(inputParser)
+	private val inputParser = mockk<InputParser>()
+	private val application = Application(inputParser)
 
 	@Test
 	fun `should call the input parser`() {
