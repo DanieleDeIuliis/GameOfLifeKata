@@ -5,7 +5,8 @@ import org.junit.jupiter.api.Test
 
 class AcceptanceTest {
 	private val inputParser = InputParser()
-	private val application = Application(inputParser)
+	private val gameRound = GameRound()
+	private val application = Application(inputParser, gameRound)
 
 	@Test
 	fun `should compute next generation`(){
