@@ -2,53 +2,34 @@ package game.of.life
 
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 
 class ApplicationTest {
 	private val inputParser = mockk<InputParser>()
 	private val gameRound = mockk<GameRound>()
-	private val application = Application(inputParser, gameRound)
+	private val graphicDisplay = mockk<GraphicDisplay>()
+	private val application = Application(inputParser, gameRound, graphicDisplay)
 
 	@Test
-	fun `should call the input parser`() {
-		val input = """
-			........
-			....*...
-			...**...
-			........
-		""".trimIndent()
-
-		every {
-			inputParser.parse(input)
-		} returns PetriDish()
-
-		application.playGame(input, 1)
-
-		verify {
-			inputParser.parse(input)
-		}
-	}
-
-	@Test
-	fun `should play a round`() {
+	fun `application should return the output as a string`() {
 		val input = "dummy"
-		val firstPetriDish = PetriDish()
-		val expectedPetriDish = PetriDish()
+		val inputPetriDish = PetriDish()
+		val outputPetriDish = PetriDish()
 
 		every {
 			inputParser.parse(input)
-		} returns firstPetriDish
+		} returns inputPetriDish
 		every {
 			gameRound.playRound(any())
-		} returns expectedPetriDish
+		} returns outputPetriDish
+		every {
+			graphicDisplay.displayPetriDish(outputPetriDish)
+		} returns "result-string"
 
-		application.playGame(input, 1)
+		val result = application.playGame(input, 1)
 
-		verify {
-			gameRound.playRound(firstPetriDish)
-		}
-
+		assertThat(result).isEqualTo("result-string")
 	}
 }
