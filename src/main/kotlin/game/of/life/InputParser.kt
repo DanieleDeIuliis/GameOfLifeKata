@@ -1,7 +1,12 @@
 package game.of.life
 
 class InputParser {
+
+	// parse first line
+	// parse remaining lines
+	// '.' is free space
+	// '*' is alien
 	fun parse(input: String):PetriDish {
-		TODO("Not yet implemented")
+		return PetriDish(0,0)
 	}
 }

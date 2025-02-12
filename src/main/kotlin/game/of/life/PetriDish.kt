@@ -1,5 +1,5 @@
 package game.of.life
 
-class PetriDish {
+data class PetriDish(val rows: Int, val columns: Int) {
 
 }
