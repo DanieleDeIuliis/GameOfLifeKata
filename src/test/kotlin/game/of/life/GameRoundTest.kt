@@ -30,4 +30,17 @@ class GameRoundTest {
 
 		assertThat(result).isEqualTo(expectedResult)
 	}
+
+	@Test
+	fun `should die if it has fewer than two live neighbours in the row`() {
+		val inputMatrix = listOf(listOf(true, true))
+		val outputMatrix = listOf(listOf(false, false))
+		val expectedResult = PetriDish(outputMatrix)
+
+		val petriDish = PetriDish(inputMatrix)
+
+		val result = gameRound.playRound(petriDish)
+
+		assertThat(result).isEqualTo(expectedResult)
+	}
 }
