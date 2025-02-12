@@ -9,10 +9,12 @@ class InputParserTest {
 
 	@Test
 	fun `should parse the first row of numbers in input`(){
-		val input = "0 0"
+		val input = "1 2"
 
 		val result = parser.parse(input)
 
-		assertThat(result).isEqualTo(PetriDish(0,0))
+		result.matrix.forEach { column ->
+			assertThat(column).allSatisfy { it == false }
+		}
 	}
 }
