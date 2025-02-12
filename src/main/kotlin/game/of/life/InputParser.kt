@@ -7,6 +7,6 @@ class InputParser {
 	// '.' is free space
 	// '*' is alien
 	fun parse(input: String):PetriDish {
-		return PetriDish(0,0)
+		return PetriDish(emptyList())
 	}
 }

@@ -15,8 +15,8 @@ class ApplicationTest {
 	@Test
 	fun `application should return the output as a string`() {
 		val input = "dummy"
-		val inputPetriDish = PetriDish(0, 0)
-		val outputPetriDish = PetriDish(0, 0)
+		val inputPetriDish = PetriDish(emptyList())
+		val outputPetriDish = PetriDish(emptyList())
 
 		every {
 			inputParser.parse(input)

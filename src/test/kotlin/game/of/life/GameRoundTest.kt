@@ -1,0 +1,33 @@
+package game.of.life
+
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+
+
+/*
+* Generation 1:
+4 8
+........
+....*...
+...**...
+........
+
+* * */
+
+class GameRoundTest {
+
+	private val gameRound = GameRound()
+
+	@Test
+	fun `cell should die cell is alone in the Petri Dish`() {
+		val inputMatrix = listOf(listOf(true))
+		val outputMatrix = listOf(listOf(false))
+		val expectedResult = PetriDish(outputMatrix)
+
+		val petriDish = PetriDish(inputMatrix)
+
+		val result = gameRound.playRound(petriDish)
+
+		assertThat(result).isEqualTo(expectedResult)
+	}
+}
