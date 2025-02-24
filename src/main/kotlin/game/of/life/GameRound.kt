@@ -2,17 +2,24 @@ package game.of.life
 
 class GameRound {
 	fun playRound(petriDish:PetriDish):PetriDish{
-		val outputMatrix = petriDish.matrix.map { row ->
-			row.mapIndexed { idx, cell ->
-				if(idx == 0 || idx == row.size - 1) {
-					return@mapIndexed false
-				}
+		val outputMatrix = petriDish.matrix.mapIndexed { rowIdx, row ->
+			row.mapIndexed { colIdx, cell ->
+
 				if (cell) {
-					val prevNeighbour = row[idx - 1]
-					val nextNeighbour = row[idx +1]
+					val prevNeighbour = runCatching { row[colIdx - 1] }.getOrElse { false }
+					val nextNeighbour = runCatching { row[colIdx + 1] }.getOrElse { false }
+
+					val verticalUp = runCatching { petriDish.matrix[rowIdx - 1][colIdx] }.getOrElse { false }
+					val verticalDown = runCatching { petriDish.matrix[rowIdx + 1][colIdx] }.getOrElse { false }
+
 					if (prevNeighbour && nextNeighbour) {
 						return@mapIndexed true
 					}
+
+					if (verticalDown && verticalUp) {
+						return@mapIndexed true
+					}
+
 				}
 				return@mapIndexed false
 			}

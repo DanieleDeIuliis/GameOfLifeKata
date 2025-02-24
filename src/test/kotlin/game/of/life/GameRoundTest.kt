@@ -55,4 +55,24 @@ class GameRoundTest {
 
 		assertThat(result.matrix).isEqualTo(outputRow)
 	}
+
+	@Test
+	fun `cell should stay alive it it har two neighbour alive in the column`(){
+		val inputColumn = listOf(
+			listOf(true),
+			listOf(true),
+			listOf(true),
+		)
+		val outputColumn = listOf(
+			listOf(false),
+			listOf(true),
+			listOf(false),
+		)
+
+		val petriDish = PetriDish(inputColumn)
+
+		val result = gameRound.playRound(petriDish)
+
+		assertThat(result.matrix).isEqualTo(outputColumn)
+	}
 }
