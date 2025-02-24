@@ -57,7 +57,7 @@ class GameRoundTest {
 	}
 
 	@Test
-	fun `cell should stay alive it it har two neighbour alive in the column`(){
+	fun `cell should stay alive it it has two neighbour alive in the column`(){
 		val inputColumn = listOf(
 			listOf(true),
 			listOf(true),
@@ -74,5 +74,26 @@ class GameRoundTest {
 		val result = gameRound.playRound(petriDish)
 
 		assertThat(result.matrix).isEqualTo(outputColumn)
+	}
+
+	@Test
+	fun `should stay alive if it has two neighbours in either column or row`(){
+		val inputMatrix = listOf(
+			listOf(false, true),
+			listOf(true, true),
+			listOf(false, false),
+		)
+
+		val outputMatrix = listOf(
+			listOf(false, false),
+			listOf(false, true),
+			listOf(false, false),
+		)
+
+		val petriDish = PetriDish(inputMatrix)
+
+		val result = gameRound.playRound(petriDish)
+
+		assertThat(result.matrix).isEqualTo(outputMatrix)
 	}
 }

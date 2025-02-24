@@ -10,13 +10,13 @@ class GameRound {
 
 				val horizontalLeft = row.getLeftHorizontalNeighbourStatusSafe(columnIdx)
 				val horizontalRight = row.getRightHorizontalNeighbourStatusSafe(columnIdx)
-				if (horizontalLeft && horizontalRight) {
-					return@mapIndexed true
-				}
 
 				val verticalUp = petriDish.matrix.getUpVerticalNeighbourStatusSafe(rowIdx, columnIdx)
 				val verticalDown = petriDish.matrix.getDownVerticalNeighbourStatusSafe(rowIdx, columnIdx)
-				if (verticalDown && verticalUp) {
+
+
+				val liveNeighboursCount = listOf(horizontalRight, horizontalLeft, verticalDown, verticalUp).filter { it }.size
+				if (liveNeighboursCount == 2) {
 					return@mapIndexed true
 				}
 
@@ -34,7 +34,7 @@ class GameRound {
 		runCatching { this[columnIdx + 1] }.getOrElse { false }
 
 	private fun List<List<Boolean>>.getUpVerticalNeighbourStatusSafe(rowIdx: Int, columnIdx: Int) =
-		runCatching { this[rowIdx + 1][columnIdx] }.getOrElse { false }
+		runCatching { this[rowIdx - 1][columnIdx] }.getOrElse { false }
 
 	private fun List<List<Boolean>>.getDownVerticalNeighbourStatusSafe(rowIdx: Int, columnIdx: Int) =
-		runCatching { this[rowIdx - 1][columnIdx] }.getOrElse { false }}
+		runCatching { this[rowIdx + 1][columnIdx] }.getOrElse { false }}
