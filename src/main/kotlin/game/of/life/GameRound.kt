@@ -3,28 +3,38 @@ package game.of.life
 class GameRound {
 	fun playRound(petriDish:PetriDish):PetriDish{
 		val outputMatrix = petriDish.matrix.mapIndexed { rowIdx, row ->
-			row.mapIndexed { colIdx, cell ->
-
-				if (cell) {
-					val prevNeighbour = runCatching { row[colIdx - 1] }.getOrElse { false }
-					val nextNeighbour = runCatching { row[colIdx + 1] }.getOrElse { false }
-
-					val verticalUp = runCatching { petriDish.matrix[rowIdx - 1][colIdx] }.getOrElse { false }
-					val verticalDown = runCatching { petriDish.matrix[rowIdx + 1][colIdx] }.getOrElse { false }
-
-					if (prevNeighbour && nextNeighbour) {
-						return@mapIndexed true
-					}
-
-					if (verticalDown && verticalUp) {
-						return@mapIndexed true
-					}
-
+			row.mapIndexed { columnIdx, cell ->
+				if (!cell) {
+					return@mapIndexed false
 				}
+
+				val horizontalLeft = row.getLeftHorizontalNeighbourStatusSafe(columnIdx)
+				val horizontalRight = row.getRightHorizontalNeighbourStatusSafe(columnIdx)
+				if (horizontalLeft && horizontalRight) {
+					return@mapIndexed true
+				}
+
+				val verticalUp = petriDish.matrix.getUpVerticalNeighbourStatusSafe(rowIdx, columnIdx)
+				val verticalDown = petriDish.matrix.getDownVerticalNeighbourStatusSafe(rowIdx, columnIdx)
+				if (verticalDown && verticalUp) {
+					return@mapIndexed true
+				}
+
 				return@mapIndexed false
 			}
 		}
 
 		return PetriDish(outputMatrix)
 	}
-}
+
+	private fun List<Boolean>.getLeftHorizontalNeighbourStatusSafe(columnIdx: Int) =
+		runCatching { this[columnIdx - 1] }.getOrElse { false }
+
+	private fun List<Boolean>.getRightHorizontalNeighbourStatusSafe(columnIdx: Int) =
+		runCatching { this[columnIdx + 1] }.getOrElse { false }
+
+	private fun List<List<Boolean>>.getUpVerticalNeighbourStatusSafe(rowIdx: Int, columnIdx: Int) =
+		runCatching { this[rowIdx + 1][columnIdx] }.getOrElse { false }
+
+	private fun List<List<Boolean>>.getDownVerticalNeighbourStatusSafe(rowIdx: Int, columnIdx: Int) =
+		runCatching { this[rowIdx - 1][columnIdx] }.getOrElse { false }}
