@@ -1,7 +1,7 @@
 package game.of.life
 
-private const val LOWER_BOUND_STAYING_ALIVE = 2
-private const val UPPER_BOUND_STAYING_ALIVE = 3
+private const val LOWER_BOUND_LIFE = 2
+private const val UPPER_BOUND_LIFE = 3
 
 class GameRound {
 	fun playRound(petriDish:PetriDish):PetriDish{
@@ -16,7 +16,7 @@ class GameRound {
 
 
 				val liveNeighboursCount = listOf(horizontalRight, horizontalLeft, verticalDown, verticalUp).filter { it }.size
-				if (cell.shouldStayAlive(liveNeighboursCount)) {
+				if (cell.shouldStayAlive(liveNeighboursCount) || cell.shouldComeToLife(liveNeighboursCount)) {
 					return@row true
 				}
 
@@ -28,7 +28,10 @@ class GameRound {
 	}
 
 	private fun Boolean.shouldStayAlive(neighbourCount: Int): Boolean =
-		this && neighbourCount in LOWER_BOUND_STAYING_ALIVE..UPPER_BOUND_STAYING_ALIVE
+		this && neighbourCount in LOWER_BOUND_LIFE..UPPER_BOUND_LIFE
+
+	private fun Boolean.shouldComeToLife(neighbourCount: Int): Boolean =
+		!this && neighbourCount == UPPER_BOUND_LIFE
 
 	private fun List<Boolean>.getLeftHorizontalNeighbourStatusSafe(columnIdx: Int) =
 		runCatching { this[columnIdx - 1] }.getOrElse { false }

@@ -136,4 +136,22 @@ class GameRoundTest {
 
 		assertThat(result.matrix).isEqualTo(outputMatrix)
 	}
+
+	@Test
+	fun `a dead cell should come to life with exactly three neighbours`() {
+		val inputMatrix = listOf(
+			listOf(false, true, false),
+			listOf(true, false, true),
+		)
+		val outputMatrix = listOf(
+			listOf(false, false, false),
+			listOf(false, true, false),
+		)
+
+		val petriDish = PetriDish(inputMatrix)
+
+		val result = gameRound.playRound(petriDish)
+
+		assertThat(result.matrix).isEqualTo(outputMatrix)
+	}
 }
