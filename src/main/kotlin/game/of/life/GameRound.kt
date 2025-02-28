@@ -6,10 +6,7 @@ private const val UPPER_BOUND_STAYING_ALIVE = 3
 class GameRound {
 	fun playRound(petriDish:PetriDish):PetriDish{
 		val outputMatrix = petriDish.matrix.mapIndexed { rowIdx, row ->
-			row.mapIndexed { columnIdx, cell ->
-				if (!cell) {
-					return@mapIndexed false
-				}
+			row.mapIndexed row@{ columnIdx, cell ->
 
 				val horizontalLeft = row.getLeftHorizontalNeighbourStatusSafe(columnIdx)
 				val horizontalRight = row.getRightHorizontalNeighbourStatusSafe(columnIdx)
@@ -19,18 +16,19 @@ class GameRound {
 
 
 				val liveNeighboursCount = listOf(horizontalRight, horizontalLeft, verticalDown, verticalUp).filter { it }.size
-				if (liveNeighboursCount.shouldStayAlive()) {
-					return@mapIndexed true
+				if (cell.shouldStayAlive(liveNeighboursCount)) {
+					return@row true
 				}
 
-				return@mapIndexed false
+				return@row false
 			}
 		}
 
 		return PetriDish(outputMatrix)
 	}
 
-	private fun Int.shouldStayAlive() = this in LOWER_BOUND_STAYING_ALIVE..UPPER_BOUND_STAYING_ALIVE
+	private fun Boolean.shouldStayAlive(neighbourCount: Int): Boolean =
+		this && neighbourCount in LOWER_BOUND_STAYING_ALIVE..UPPER_BOUND_STAYING_ALIVE
 
 	private fun List<Boolean>.getLeftHorizontalNeighbourStatusSafe(columnIdx: Int) =
 		runCatching { this[columnIdx - 1] }.getOrElse { false }
