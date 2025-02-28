@@ -32,9 +32,17 @@ class GameRoundTest {
 	}
 
 	@Test
-	fun `should die if it has fewer than two live neighbours in the row`() {
-		val inputMatrix = listOf(listOf(true, true))
-		val outputMatrix = listOf(listOf(false, false))
+	fun `should die if it has fewer than two live neighbours`() {
+		val inputMatrix = listOf(
+			listOf(true, true, false),
+			listOf(false, false, true),
+			listOf(false, false, true),
+		)
+		val outputMatrix = listOf(
+			listOf(false, false, false),
+			listOf(false, false, false),
+			listOf(false, false, false)
+		)
 		val expectedResult = PetriDish(outputMatrix)
 
 		val petriDish = PetriDish(inputMatrix)
@@ -45,56 +53,23 @@ class GameRoundTest {
 	}
 
 	@Test
-	fun `cell should stay alive it it har two neighbour alive in the row`(){
-		val inputRow = listOf(listOf(true, true, true))
-		val outputRow = listOf(listOf(false, true, false))
+	fun `cell should stay alive it it has two neighbours`(){
+		val inputRow = listOf(
+			listOf(true, true, true),
+			listOf(false, false, true),
+			listOf(false, false, true),
+		)
+		val outputRow = listOf(
+			listOf(false, true, true),
+			listOf(false, false, true),
+			listOf(false, false, false),
+		)
 
 		val petriDish = PetriDish(inputRow)
 
 		val result = gameRound.playRound(petriDish)
 
 		assertThat(result.matrix).isEqualTo(outputRow)
-	}
-
-	@Test
-	fun `cell should stay alive it it has two neighbour alive in the column`(){
-		val inputColumn = listOf(
-			listOf(true),
-			listOf(true),
-			listOf(true),
-		)
-		val outputColumn = listOf(
-			listOf(false),
-			listOf(true),
-			listOf(false),
-		)
-
-		val petriDish = PetriDish(inputColumn)
-
-		val result = gameRound.playRound(petriDish)
-
-		assertThat(result.matrix).isEqualTo(outputColumn)
-	}
-
-	@Test
-	fun `should stay alive if it has two neighbours in either column or row`(){
-		val inputMatrix = listOf(
-			listOf(false, true),
-			listOf(true, true),
-			listOf(false, false),
-		)
-
-		val outputMatrix = listOf(
-			listOf(false, false),
-			listOf(false, true),
-			listOf(false, false),
-		)
-
-		val petriDish = PetriDish(inputMatrix)
-
-		val result = gameRound.playRound(petriDish)
-
-		assertThat(result.matrix).isEqualTo(outputMatrix)
 	}
 
 	@Test
