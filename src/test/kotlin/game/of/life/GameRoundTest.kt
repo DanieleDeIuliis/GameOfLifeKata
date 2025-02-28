@@ -96,4 +96,24 @@ class GameRoundTest {
 
 		assertThat(result.matrix).isEqualTo(outputMatrix)
 	}
+
+	@Test
+	fun `should stay alive if it has three neighbours in either column or row`() {
+		val inputMatrix = listOf(
+			listOf(false, true),
+			listOf(true, true),
+			listOf(false, true),
+		)
+		val outputMatrix = listOf(
+			listOf(false, false),
+			listOf(false, true),
+			listOf(false, false),
+		)
+
+		val petriDish = PetriDish(inputMatrix)
+
+		val result = gameRound.playRound(petriDish)
+
+		assertThat(result.matrix).isEqualTo(outputMatrix)
+	}
 }

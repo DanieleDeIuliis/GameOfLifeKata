@@ -16,7 +16,7 @@ class GameRound {
 
 
 				val liveNeighboursCount = listOf(horizontalRight, horizontalLeft, verticalDown, verticalUp).filter { it }.size
-				if (liveNeighboursCount == 2) {
+				if (liveNeighboursCount == 2 || liveNeighboursCount == 3) {
 					return@mapIndexed true
 				}
 
