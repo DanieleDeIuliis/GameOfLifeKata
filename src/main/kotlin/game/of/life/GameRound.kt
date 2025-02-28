@@ -1,5 +1,8 @@
 package game.of.life
 
+private const val LOWER_BOUND_STAYING_ALIVE = 2
+private const val UPPER_BOUND_STAYING_ALIVE = 3
+
 class GameRound {
 	fun playRound(petriDish:PetriDish):PetriDish{
 		val outputMatrix = petriDish.matrix.mapIndexed { rowIdx, row ->
@@ -16,7 +19,7 @@ class GameRound {
 
 
 				val liveNeighboursCount = listOf(horizontalRight, horizontalLeft, verticalDown, verticalUp).filter { it }.size
-				if (liveNeighboursCount == 2 || liveNeighboursCount == 3) {
+				if (liveNeighboursCount.shouldStayAlive()) {
 					return@mapIndexed true
 				}
 
@@ -26,6 +29,8 @@ class GameRound {
 
 		return PetriDish(outputMatrix)
 	}
+
+	private fun Int.shouldStayAlive() = this in LOWER_BOUND_STAYING_ALIVE..UPPER_BOUND_STAYING_ALIVE
 
 	private fun List<Boolean>.getLeftHorizontalNeighbourStatusSafe(columnIdx: Int) =
 		runCatching { this[columnIdx - 1] }.getOrElse { false }
